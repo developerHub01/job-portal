@@ -1,0 +1,86 @@
+<div class="px-4 py-6">
+  <div class="card bg-base-100 w-full max-w-4xl mx-auto shadow-xl border border-primary">
+
+    <%= jobData%>
+      <div class="card-body">
+        <h1 class="text-3xl font-bold text-primary text-center mb-4">
+          Job Details
+        </h1>
+
+        <!-- Job Title -->
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-white">Job Title:</h2>
+          <p class="text-lg text-white">
+            <%= jobData.title %>
+          </p>
+        </div>
+
+        <!-- Job Description -->
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-white">Job Description:</h2>
+          <p class="text-lg text-white">
+            <%= jobData.description %>
+          </p>
+        </div>
+
+        <!-- Job Location -->
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-white">Location:</h2>
+          <p class="text-lg text-white">
+            <%= jobData.location %>
+          </p>
+        </div>
+
+        <!-- Job Salary -->
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-white">Salary:</h2>
+          <p class="text-lg text-white">$<%= jobData.salary %>
+          </p>
+        </div>
+
+        <!-- Posted By -->
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-white">Posted By:</h2>
+          <p class="text-lg text-white">
+            Name: <%= jobData.posted_by_name %>
+          </p>
+          <p class="text-lg text-white">
+            Email: <%= jobData.posted_by_email %>
+          </p>
+        </div>
+
+        <!-- Created At -->
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-white">Posted On:</h2>
+          <p class="text-lg text-white">
+            <%= jobData.created_at %>
+          </p>
+        </div>
+        <button class="btn btn-primary">Appy Now</button>
+      </div>
+  </div>
+</div>
+
+<div class="w-full max-w-3xl mx-auto py-10 px-5 flex flex-col gap-4">
+  <div class="w-full flex justify-between items-center gap-2 pb-5">
+    <h1 class="text-2xl">
+      <%= reviewList.length %> Reviews
+    </h1>
+  </div>
+  <% if (user) { %>
+    <form action="/api/reviews" method="post" class="space-y-2">
+      <input type="text" value="<%= jobData.job_id %>" name="job_id" hidden>
+      <input type="text" name="rating" placeholder="Give your rating between 1-5"
+        class="input input-bordered w-full" />
+      <textarea class="textarea textarea-bordered w-full h-36 resize-none text-base" placeholder="Write your review"
+        name="comment" required></textarea>
+      <button type="submit" class="btn btn-primary">Post review</button>
+    </form>
+    <% }%>
+
+      <div class="flex flex-col gap-6">
+        <% reviewList.forEach(function({ review_id, rating , comment, reviewer_name, reviewer_email, isMine}){ %>
+          <%- include("../partials/review", { review_id, rating , comment, reviewer_name, reviewer_email, isMine}) %>
+            <% }); %>
+      </div>
+</div>

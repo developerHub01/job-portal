@@ -1,0 +1,19 @@
+<div class="card bg-base-100 w-full shadow-xl rounded-md border border-primary">
+  <div class="card-body text-white">
+    <h2 class="card-title">
+      <%= title %>
+    </h2>
+    <p class="line-clamp-3">
+      <%= description.substring(0, 50) %>
+    </p>
+    <div class="card-actions">
+      <a href="/job/<%= job_id %>" class="btn btn-primary">View Details</a>
+      <% if (isMine) { %>
+        <a href="/update-job/<%= job_id %>" class="btn btn-success">Edit</a>
+        <form action="/api/jobs/delete/<%= job_id %>" method="get">
+          <button class="btn btn-error" type="submit">Delete</button>
+        </form>
+        <% } %>
+    </div>
+  </div>
+</div>

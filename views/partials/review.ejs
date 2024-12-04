@@ -1,0 +1,26 @@
+<div class="bg-slate-950 p-2 rounded-md flex flex-col gap-2">
+  <div class="flex justify-between items-center select-none">
+    <div>
+      <p class="mb-1 text-base">
+        <%= reviewer_name %>
+      </p>
+      <p class="text-sm">
+        <%= reviewer_email %>
+      </p>
+    </div>
+    <% if (typeof isMine !==undefined && isMine){%>
+      <form action="/api/reviews/delete/<%= review_id %>" method="get">
+        <button class="btn btn-error btn-xs" type="submit">Delete</button>
+      </form>
+      <% }%>
+  </div>
+  <div class="w-20 h-[1px] bg-white"></div>
+  <div class="flex justify-between gap-2">
+    <p class="text-sm">
+      <%= comment %>
+    </p>
+    <p class="font-bold">
+      <%= rating%> star
+    </p>
+  </div>
+</div>

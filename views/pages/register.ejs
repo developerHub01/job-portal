@@ -1,0 +1,71 @@
+<div class="hero bg-base-200 min-h-screen">
+  <div class="hero-content flex-col lg:flex-row-reverse">
+    <div class="text-center lg:text-left">
+      <h1 class="text-5xl font-bold">Register now!</h1>
+      <p class="py-6">
+        Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
+        excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a
+        id nisi.
+      </p>
+      <button class="btn btn-primary">Go to home page</button>
+    </div>
+    <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+      <!-- Error message -->
+      <div id="errorMessage" class="text-red-500 text-sm text-center" style="display: none;"></div>
+      <form id="registerForm" class="card-body">
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Name</span>
+          </label>
+          <input type="text" placeholder="Name" class="input input-bordered" name="name" id="name" required />
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Email</span>
+          </label>
+          <input type="email" placeholder="email" class="input input-bordered" name="email" id="email" required />
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Password</span>
+          </label>
+          <input type="password" placeholder="Password" class="input input-bordered" name="password" id="password" required />
+        </div>
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit">Register</button>
+        </div>
+        <label class="label">
+          <a href="/login" class="label-text-alt link link-hover mx-auto">Already have an account?</a>
+        </label>
+      </form>
+      <div id="errorContainer" class="text-red-500 mt-4"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('#registerForm').on('submit', function (event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      const name = $('#name').val();
+      const email = $('#email').val();
+      const password = $('#password').val();
+      
+      $.ajax({
+        url: '/api/auth/register',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ name, email, password }),
+        success: function (response) {
+          alert('Registration successful!');
+          window.location.href = '/';
+        },
+        error: function (jqXHR) {
+          const errorMessage = jqXHR.responseJSON?.message || 'An error occurred';
+          $('#errorMessage').text(errorMessage).show();
+        }
+      });
+    });
+  });
+</script>

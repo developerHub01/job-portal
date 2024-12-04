@@ -1,0 +1,71 @@
+<div class="navbar bg-base-100">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+        </svg>
+      </div>
+      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li><a href="/create-job">Create Job</a></li>
+      </ul>
+    </div>
+    <a href="/" class="btn btn-ghost text-xl">Sports News</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      <% if (user) {%>
+        <li><a href="/create-job">Create Job</a></li>
+        <li><a href="/my-created-job">My Created Job</a></li>
+        <% } %>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <% if (user) {%>
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+          <div class="size-10 rounded-full bg-primary">
+            <p class="uppercase text-lg text-white w-full h-full grid place-items-center">
+              <%= user.name.split(" ").reduce((acc, curr, index)=> acc +
+                  curr[0] ,"").substring(0, 2) %>
+                </p>
+              </div>
+            </div>
+            <ul
+              tabindex=" 0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                <li>
+                  <a href="/profile" class="justify-between"> Profile </a>
+                </li>
+                <li><a href="/api/auth/logout">Logout</a></li>
+                </ul>
+          </div>
+          <% }else { %>
+            <a href="/login" class="btn btn-primary">Login</a>
+            <% } %>
+        </div>
+      </div>
+
+      <script>
+
+        const searchBlock = document.querySelector("#search-block")
+
+        if (location.pathname !== "/") {
+          searchBlock.classList.add("hidden")
+        } else {
+          searchBlock.classList.remove("hidden")
+        }
+
+        const searchBtn = document.querySelector("#search-btn")
+        const searchInput = document.querySelector("#search-input")
+
+        searchBtn.addEventListener("click", function (event) {
+
+          const searchTerm = searchInput.value
+
+          const searchPath = `?search=${searchTerm}`;
+
+
+          window.location.href = searchPath
+        })
+
+      </script>

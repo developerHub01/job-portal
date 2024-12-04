@@ -1,0 +1,89 @@
+<div class="px-2 py-5">
+  <div class="card bg-base-100 w-full max-w-4xl mx-auto shrink-0 shadow-2xl border border-primary">
+    <form id="createJobForm" class="card-body">
+      <h1 class="text-4xl text-center font-bold text-white p-2">Create a Job Listing</h1>
+
+      <!-- Job Title -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Job Title</span>
+        </label>
+        <input type="text" id="title" name="title" placeholder="Enter job title" class="input input-bordered"
+          required />
+      </div>
+
+      <!-- Job Location -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Job Location</span>
+        </label>
+        <input type="text" id="location" name="location" placeholder="Enter job location" class="input input-bordered"
+          required />
+      </div>
+
+      <!-- Salary -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Salary Range</span>
+        </label>
+        <input type="text" id="salary" name="salary" placeholder="Enter salary range" class="input input-bordered"
+          required />
+      </div>
+
+      <!-- Job Description -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Job Description</span>
+        </label>
+        <textarea id="description" name="description" placeholder="Write job description"
+          class="textarea textarea-bordered max-h-96 min-h-72" required></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-control mt-6">
+        <button type="submit" class="btn btn-primary">Submit Job Listing</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('#createJobForm').submit(function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const title = $('#title').val();
+      const location = $('#location').val();
+      const salary = $('#salary').val();
+      const category = $('#category').val();
+      const description = $('#description').val();
+
+      const formData = {
+        title,
+        location,
+        salary,
+        category,
+        description
+      };
+
+      $.ajax({
+        url: '/api/jobs/create',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function (response) {
+          if (response.success) {
+            alert('Job listing created successfully!');
+            window.location.href = '/';
+          } else {
+            alert('Error creating job listing: ' + response.message);
+          }
+        },
+        error: function (error) {
+          console.error('Error:', error);
+          alert('An error occurred while creating the job listing.');
+        }
+      });
+    });
+  });
+</script>
