@@ -1,0 +1,69 @@
+<div class="px-2 py-5">
+  <div class="card bg-base-100 w-full max-w-4xl mx-auto shrink-0 shadow-2xl border border-primary">
+    <form id="applyJobForm" class="card-body" enctype="multipart/form-data">
+      <h1 class="text-4xl text-center font-bold text-white p-2">Apply for the Job</h1>
+
+      <!-- Resume -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Resume Link</span>
+        </label>
+        <input type="text" id="resume_url" name="resume_url" accept=".pdf" class="input input-bordered w-full"
+          placeholder="Enter your resume url" required />
+      </div>
+
+      <!-- Cover Letter -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Cover Letter</span>
+        </label>
+        <textarea id="cover_letter" name="cover_letter" placeholder="Write your cover letter"
+          class="textarea textarea-bordered max-h-96 min-h-32"></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-control mt-6">
+        <button type="submit" class="btn btn-primary">Submit Application</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('#applyJobForm').submit(function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const resume = $('#resume_url').val();
+      const coverLetter = $('#cover_letter').val();
+      const jobId = window.location.pathname.split('/').pop(); // Assuming job_id is in the URL
+
+      const data = {
+        job_id: jobId,
+        resume_url: resume,
+        cover_letter: coverLetter,
+      }
+
+      $.ajax({
+        url: '/api/applications/apply',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (response) {
+          console.log(response);
+
+          if (response.success) {
+            alert('Application submitted successfully!');
+            window.location.href = '/my-applications';
+          } else {
+            alert('Error submitting application: ' + response.message);
+          }
+        },
+        error: function (error) {
+          console.error('Error:', error);
+          alert('An error occurred while submitting the application.');
+        }
+      });
+    });
+  });
+</script>

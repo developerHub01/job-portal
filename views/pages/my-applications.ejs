@@ -1,0 +1,13 @@
+<% if (user) { %>
+  <%- include('../partials/navbar', {user}); %>
+    <% } else { %>
+      <%- include('../partials/navbar',); %>
+        <% } %>
+          <section class="w-full max-w-6xl mx-auto px-5 py-8 flex flex-col gap-8">
+            <h1 class="text-center text-4xl font-bold text-white">My Applied Jobs (<%=applicationList?.length %>)</h1>
+            <div class="w-full grid md:grid-cols-2 gap-8">
+              <% applicationList.forEach(function(application, index){ %>
+                <%- include('../partials/applied-job-card', application); %>
+                  <% }); %>
+            </div>
+          </section>

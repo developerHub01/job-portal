@@ -11,7 +11,7 @@ CREATE TABLE Users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Jobs Table (removed category_id)
+-- Jobs Table
 CREATE TABLE Jobs (
   job_id INT PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(255) NOT NULL,
@@ -28,13 +28,14 @@ CREATE TABLE Applications (
   application_id INT PRIMARY KEY AUTO_INCREMENT,
   job_id INT NOT NULL,
   user_id INT NOT NULL,  -- Applicant (user)
-  status ENUM('applied', 'shortlisted', 'rejected', 'hired') DEFAULT 'applied',
+  resume_url TEXT,       -- Link to uploaded resume
+  cover_letter TEXT,     -- Optional cover letter text
   applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (job_id) REFERENCES Jobs(job_id),
   FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
--- Reviews Table (added)
+-- Reviews Table
 CREATE TABLE Reviews (
   review_id INT PRIMARY KEY AUTO_INCREMENT,
   job_id INT NOT NULL,  -- The job being reviewed

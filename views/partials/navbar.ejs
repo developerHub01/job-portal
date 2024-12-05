@@ -10,13 +10,15 @@
         <li><a href="/create-job">Create Job</a></li>
       </ul>
     </div>
-    <a href="/" class="btn btn-ghost text-xl">Sports News</a>
+    <a href="/" class="btn btn-ghost text-xl">Job Portal</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
       <% if (user) {%>
         <li><a href="/create-job">Create Job</a></li>
         <li><a href="/my-created-job">My Created Job</a></li>
+        <li><a href="/my-applications">My Applied Job</a></li>
+        <li><a href="/my-job-application">People Who Applied</a></li>
         <% } %>
     </ul>
   </div>
@@ -44,28 +46,3 @@
             <% } %>
         </div>
       </div>
-
-      <script>
-
-        const searchBlock = document.querySelector("#search-block")
-
-        if (location.pathname !== "/") {
-          searchBlock.classList.add("hidden")
-        } else {
-          searchBlock.classList.remove("hidden")
-        }
-
-        const searchBtn = document.querySelector("#search-btn")
-        const searchInput = document.querySelector("#search-input")
-
-        searchBtn.addEventListener("click", function (event) {
-
-          const searchTerm = searchInput.value
-
-          const searchPath = `?search=${searchTerm}`;
-
-
-          window.location.href = searchPath
-        })
-
-      </script>

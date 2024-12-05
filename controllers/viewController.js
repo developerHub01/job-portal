@@ -1,3 +1,4 @@
+const Application = require("../models/applicationModel");
 const Job = require("../models/jobModel");
 const Review = require("../models/reviewModel");
 const { format } = require("date-fns");
@@ -17,7 +18,7 @@ class ViewsControllers {
 
       jobList = jobList.map((job) => ({
         ...job,
-        isMine: job.user_id === user.user_id,
+        isMine: job?.user_id === user?.user_id,
       }));
 
       const data = {
@@ -108,6 +109,7 @@ class ViewsControllers {
 
   async jobById(req, res) {
     const user = req.user;
+
     const { id: job_id } = req.params;
     try {
       const jobData = (
@@ -128,19 +130,79 @@ class ViewsControllers {
 
       reviewList = reviewList.map((review) => ({
         ...review,
-        isMine: true,
+        isMine: review?.reviewer_id === user?.user_id,
       }));
 
-      jobData["created_at"] = format(
-        new Date(jobData["created_at"]),
-        "MM/dd/yyyy"
-      );
+      console.log(jobData["created_at"]);
+
+      if (jobData["created_at"])
+        jobData["created_at"] = format(
+          new Date(jobData["created_at"]),
+          "MM/dd/yyyy"
+        );
 
       const data = { user, jobData, reviewList };
 
+      return res.render("pages/job", data);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send("Error loading jobs");
+    }
+  }
+
+  async applyJob(req, res) {
+    const user = req.user;
+    const { id: job_id } = req.params;
+
+    const data = { user };
+
+    return res.render("pages/apply", data);
+  }
+
+  async myApplications(req, res) {
+    const { user } = req;
+    let applicationList = [];
+
+    try {
+      applicationList = await new Promise((resolve, reject) =>
+        Application.getApplicationsByUserId(user?.user_id, (err, jobs) => {
+          if (err) reject(err);
+          else resolve(jobs);
+        })
+      );
+
+      const data = {
+        user,
+        applicationList,
+      };
+
       console.log(data);
 
-      return res.render("pages/job", data);
+      return res.render("pages/my-applications", data);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send("Error loading jobs");
+    }
+  }
+
+  async myJobApplications(req, res) {
+    const { user } = req;
+    let applicationList = [];
+
+    try {
+      applicationList = await new Promise((resolve, reject) =>
+        Application.getApplicationsOfMyJobs(user?.user_id, (err, jobs) => {
+          if (err) reject(err);
+          else resolve(jobs);
+        })
+      );
+
+      const data = {
+        user,
+        applicationList,
+      };
+
+      return res.render("pages/people-who-applied", data);
     } catch (error) {
       console.error(error);
       return res.status(500).send("Error loading jobs");

@@ -1,5 +1,6 @@
 // middlewares/authMiddleware.js
 const { AUTH_SECRET } = require("../constant");
+const UserModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
 const authenticateToken = (req, res, next) => {
@@ -11,9 +12,20 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, AUTH_SECRET);
-    req.user = decoded;
+    UserModel.getUserById(decoded.user_id, (err, userData) => {
+      if (err || !userData) {
+        console.error("Error fetching user data or user not found");
+        return next();
+      }
 
-    next();
+      if (userData) userData = userData[0];
+
+      delete userData["password"];
+
+      req.user = userData;
+
+      return next();
+    });
   } catch (err) {
     console.error(err);
     res.redirect("/login");

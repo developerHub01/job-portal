@@ -1,0 +1,30 @@
+<div class="card bg-base-100 w-full shadow-xl rounded-md border border-primary mb-4">
+  <div class="card-body text-white">
+    <h2 class="card-title">
+      <%= title %>
+    </h2>
+    <p class="line-clamp-3">
+      <%= description.substring(0, 50) %>...
+    </p>
+    <p class="text-sm text-gray-400">
+      Location: <%= location %> | Salary: $<%= salary %>
+    </p>
+    <p class="text-sm text-gray-400">
+      Applied At: <%= new Date(applied_at).toLocaleString() %>
+    </p>
+    <p class="text-sm text-gray-400">
+      Resume: <a href="<%= resume_url %>" target="_blank" class="link link-primary">View Resume</a>
+    </p>
+    <p class="text-sm text-gray-400">
+      Cover Letter: <span class="italic">
+        <%= cover_letter %>
+      </span>
+    </p>
+    <div class="card-actions">
+      <a href="/job/<%= job_id %>" class="btn btn-primary">View Job Details</a>
+      <form action="/api/applications/delete/<%= application_id %>" method="get">
+        <button class="btn btn-error" type="submit">Delete</button>
+      </form>
+    </div>
+  </div>
+</div>

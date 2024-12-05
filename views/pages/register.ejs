@@ -29,7 +29,8 @@
           <label class="label">
             <span class="label-text">Password</span>
           </label>
-          <input type="password" placeholder="Password" class="input input-bordered" name="password" id="password" required />
+          <input type="password" placeholder="Password" class="input input-bordered" name="password" id="password"
+            required />
         </div>
         <div class="form-control mt-6">
           <button class="btn btn-primary" type="submit">Register</button>
@@ -51,7 +52,7 @@
       const name = $('#name').val();
       const email = $('#email').val();
       const password = $('#password').val();
-      
+
       $.ajax({
         url: '/api/auth/register',
         method: 'POST',
@@ -59,7 +60,7 @@
         data: JSON.stringify({ name, email, password }),
         success: function (response) {
           alert('Registration successful!');
-          window.location.href = '/';
+          window.location.href = '/login';
         },
         error: function (jqXHR) {
           const errorMessage = jqXHR.responseJSON?.message || 'An error occurred';
