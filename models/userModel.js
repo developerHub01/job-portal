@@ -17,6 +17,8 @@ const User = {
   },
 
   updateUser: (user_id, name, email, callback) => {
+    console.log({ user_id, name, email });
+
     const query = "UPDATE Users SET name = ?, email = ? WHERE user_id = ?";
     db.query(query, [name, email, user_id], callback);
   },

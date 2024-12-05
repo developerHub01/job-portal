@@ -42,4 +42,10 @@ router.get(
   ViewsControllers.myJobApplications
 );
 
+router.get(
+  "/profile",
+  authenticateToken,
+  ViewsControllers.profile
+);
+
 module.exports = router;

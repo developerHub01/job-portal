@@ -12,11 +12,11 @@ router.get("/profile", authenticateToken, UserController.getUserProfile);
 router.get("/:user_id", UserController.getUserById);
 
 // Update user details
-router.patch("/:user_id", authenticateToken, UserController.updateUser);
+router.post("/update", authenticateToken, UserController.updateUser);
 
 // Change user password
-router.patch(
-  "/:user_id/change-password",
+router.post(
+  "/change-password",
   authenticateToken,
   UserController.changePassword
 );

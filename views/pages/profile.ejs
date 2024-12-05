@@ -1,0 +1,46 @@
+<% if (user) { %>
+  <%- include('../partials/navbar', {user}); %>
+    <% } else { %>
+      <%- include('../partials/navbar'); %>
+        <% } %>
+
+          <div class="px-4 py-6">
+            <!-- Profile Information Section -->
+            <div class="card bg-base-100 w-full max-w-4xl mx-auto shadow-xl border border-primary">
+              <div class="card-body">
+                <h1 class="text-3xl font-bold text-primary text-center mb-4">Profile Information</h1>
+
+                <div class="mb-4">
+                  <h2 class="text-xl font-semibold text-white">Name:</h2>
+                  <p class="text-lg text-white">
+                    <%= user.name %>
+                  </p>
+                </div>
+
+                <div class="mb-4">
+                  <h2 class="text-xl font-semibold text-white">Email:</h2>
+                  <p class="text-lg text-white">
+                    <%= user.email %>
+                  </p>
+                </div>
+
+                <!-- Update Profile Form -->
+                <form action="/api/users/update" method="post" class="space-y-2">
+                  <h2 class="text-xl font-semibold text-white">Update Profile</h2>
+                  <input type="text" name="name" placeholder="Update Name" class="input input-bordered w-full"
+                    value="<%= user.name %>" />
+                  <input type="email" name="email" placeholder="Update Email" class="input input-bordered w-full"
+                    value="<%= user.email %>" />
+                  <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+
+                <!-- Change Password Form -->
+                <form action="/api/users/change-password" method="post" class="space-y-2 mt-5">
+                  <h2 class="text-xl font-semibold text-white">Change Password</h2>
+                  <input type="password" name="newPassword" placeholder="New Password"
+                    class="input input-bordered w-full" required />
+                  <button type="submit" class="btn btn-primary">Change Password</button>
+                </form>
+              </div>
+            </div>
+          </div>

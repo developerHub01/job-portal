@@ -1,20 +1,26 @@
 // controllers/userController.js
 const User = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 
 const updateUser = (req, res) => {
   const { name, email } = req.body;
-  const user_id = req.user_id; // Assuming the user ID is available from the authentication middleware
+
+  const { user_id } = req.user;
+
   User.updateUser(user_id, name, email, (err, result) => {
+    console.log({ err, result });
+
     if (err) {
       return res.status(500).json({ message: "Error updating user" });
     }
-    res.json({ message: "User updated successfully" });
+    return res.redirect("back");
   });
 };
 
 const changePassword = (req, res) => {
   const { newPassword } = req.body;
-  const user_id = req.user_id; // Assuming the user ID is available from the authentication middleware
+
+  const { user_id } = req.user; // Assuming the user ID is available from the authentication middleware
   bcrypt.hash(newPassword, 10, (err, hashedPassword) => {
     if (err) {
       return res.status(500).json({ message: "Error hashing password" });
@@ -23,7 +29,7 @@ const changePassword = (req, res) => {
       if (err) {
         return res.status(500).json({ message: "Error changing password" });
       }
-      res.json({ message: "Password changed successfully" });
+      return res.redirect("back");
     });
   });
 };

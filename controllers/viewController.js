@@ -208,6 +208,16 @@ class ViewsControllers {
       return res.status(500).send("Error loading jobs");
     }
   }
+
+  async profile(req, res) {
+    const { user } = req;
+
+    const data = {
+      user,
+    };
+
+    return res.render("pages/profile", data);
+  }
 }
 
 module.exports = new ViewsControllers();
